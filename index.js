@@ -122,7 +122,7 @@ const run = (secretEnv) => {
         .on('finish', () => {
           this._playNext();
         });
-      this.dispatch.setVolume(this.volume / 10);
+      this.dispatch.setVolume(this.volume / 50);
     }
 
     _setTextChannel(textChannel) {
