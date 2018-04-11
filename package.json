@@ -1,0 +1,21 @@
+{
+  "name": "discord-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "discord.js": "git://github.com/discordjs/discord.js.git#master",
+    "get-youtube-playlist-id": "0.0.1",
+    "is-playlist": "^1.0.0",
+    "node-opus": "^0.2.7",
+    "youtube-search": "^1.1.0",
+    "ytdl-core": "^0.20.2",
+    "ytpl": "^0.1.10"
+  }
+}
