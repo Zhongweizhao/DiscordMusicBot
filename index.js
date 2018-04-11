@@ -124,6 +124,10 @@ const run = (secretEnv) => {
         });
       this.dispatch.setVolume(this.volume / 10);
     }
+
+    _setTextChannel(textChannel) {
+      this.textChannel = textChannel;
+    }
   }
 
   const server = {};
@@ -161,6 +165,8 @@ const run = (secretEnv) => {
       );
       server[message.guild.id] = connectionManager;
     }
+
+    connectionManager._setTextChannel(message.channel);
 
     switch (command) {
       case 'add':
