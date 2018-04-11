@@ -126,7 +126,7 @@ const run = (secretEnv) => {
     }
   }
 
-  let connectionManager = null;
+  const server = {};
 
   bot.on('ready', () => {
     console.log('bot ready');
@@ -145,6 +145,8 @@ const run = (secretEnv) => {
 
     if (!command) return;
 
+    let connectionManager = server[message.guild.id];
+
     // console.log('command', command);
     // console.log('content', content);
 
@@ -157,6 +159,7 @@ const run = (secretEnv) => {
         message.channel,
         message.member.voiceChannelID,
       );
+      server[message.guild.id] = connectionManager;
     }
 
     switch (command) {
