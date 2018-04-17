@@ -48,6 +48,7 @@ const run = (secretEnv) => {
     /volume 1-100           set volume
     /skip                   skip current song
     /queue                  show queue
+    /remove i               remove the i-th song in queue
     /clear                  clear queue including current playing one
     /play                   resume muisc
     /pause                  pause music
@@ -61,7 +62,7 @@ const run = (secretEnv) => {
       this.voiceChannelID = voiceChannelID;
       this.queue = [];
       this.volume = volume;
-      this.index = 0;
+      this.index = -1;
       this.dispatch = null;
     }
 
@@ -106,6 +107,26 @@ const run = (secretEnv) => {
       return this.queue.map((q, i) =>
         `${i === this.index ? 'Playing' : (i + 1)}. ${q.title} added by ${q.by}`
       ).join('\n');
+    }
+
+    remove(index) {
+      const removeCurrent = this.index === index
+
+      // first remove 1 song from queue at index
+      this.queue.splice(index, 1);
+
+      // shift index
+      if (this.index >= index) {
+        this.index -= 1;
+        this.index %= this.queue.length;
+      }
+
+      if (removeCurrent) {
+        // deleting current song
+        // first stop dispatch
+        // this will trigger _playNext
+        this.dispatch.destroy();
+      }
     }
 
     clear() {
@@ -214,6 +235,14 @@ const run = (secretEnv) => {
           connectionManager.send(connectionManager.printQueue());
         }
         break;
+      case 'remove':
+        const index = parseInt(content, 10);
+        if (!index || index <= 0 || index > connectionManager.queue.length) {
+          connectionManager.send('enter valid index to remove');
+        } else {
+          connectionManager.remove(index - 1);
+        }
+        break;
       case 'skip':
         connectionManager.skip();
         break;
@@ -222,7 +251,7 @@ const run = (secretEnv) => {
         if (!volume || volume < 1 || volume > 100) {
           connectionManager.send('enter volume from 1 to 100');
         } else {
-          connectionManager.setVolume(parseInt(content, 10));
+          connectionManager.setVolume(volume);
         }
         break;
       case 'clear':
