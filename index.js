@@ -89,7 +89,7 @@ const run = (secretEnv) => {
     skip() {
       // when the dispatch is destroyed, finish event is generated,
       // which will call this._playNext()
-      if (this.dispatch || !this.dispatch.destroyed) this.dispatch.destroy();
+      if (this.dispatch && !this.dispatch.destroyed) this.dispatch.destroy();
     }
 
     send(msg) {
