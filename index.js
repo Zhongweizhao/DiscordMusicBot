@@ -188,6 +188,7 @@ const run = (secretEnv) => {
     }
 
     connectionManager._setTextChannel(message.channel);
+    message.channel.startTyping();
 
     switch (command) {
       case 'add':
@@ -263,6 +264,8 @@ const run = (secretEnv) => {
       default:
         return;
     }
+
+    message.channel.stopTyping();
   });
 
   bot.login(token);
